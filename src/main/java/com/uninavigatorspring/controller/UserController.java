@@ -93,17 +93,20 @@ public class UserController {
 
     @PostMapping("/approve-instructor-request/{userId}")
     public ResponseEntity<?> approveInstructorRequest(@PathVariable Integer userId) {
-        if (userService.approveInstructorRequest(userId)) {
-            return ResponseEntity.ok("Instructor status approved successfully");
+        boolean success = userService.approveInstructorRequest(userId);
+        if (success) {
+            return ResponseEntity.ok().build(); // Ensure this sends HTTP 200
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
     }
 
+
     @PostMapping("/decline-instructor-request/{userId}")
     public ResponseEntity<?> declineInstructorRequest(@PathVariable Integer userId) {
-        if (userService.declineInstructorRequest(userId)) {
-            return ResponseEntity.ok("Instructor status declined successfully");
+        boolean success = userService.declineInstructorRequest(userId);
+        if (success) {
+            return ResponseEntity.ok().build(); // Ensure this sends HTTP 200
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
