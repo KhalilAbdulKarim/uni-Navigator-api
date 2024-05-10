@@ -59,6 +59,11 @@ public class UserService {
         return userRepository.findAllByRequestStatus(User.RequestStatus.Requested);
     }
 
+    public List<User> getAllInstructors() {
+        return userRepository.findAllByRole(User.Role.Instructor);
+    }
+
+
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }

@@ -15,7 +15,7 @@ public class Course {
     private String courseName;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "InstructorID", nullable = true)
+    @JoinColumn(name = "InstructorID", nullable = false)
     private User instructor;
 
     @Column(length = 255, nullable = true)

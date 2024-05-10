@@ -65,12 +65,12 @@ public class User {
     }
 
 
-    public Integer getUserID() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserID(Integer userID) {
-        this.userId = userID;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getUsername() {

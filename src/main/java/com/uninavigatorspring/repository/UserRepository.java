@@ -33,5 +33,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("UPDATE User u SET u.role = 'Instructor', u.requestStatus = 'Approved' WHERE u.userId = :userId")
     int approveInstructorRequest(Integer userId);
 
+    List<User> findAllByRole(User.Role role);
+
+
 
 }
