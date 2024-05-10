@@ -1,5 +1,6 @@
 package com.uninavigatorspring.controller;
 
+//import com.uninavigatorspring.DTO.CourseDTO;
 import com.uninavigatorspring.model.Course;
 import com.uninavigatorspring.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,25 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
 
-    @GetMapping("/")
+    @GetMapping("/AllCourses")
     public ResponseEntity<List<Course>> getAllCourses() {
-        return ResponseEntity.ok(courseService.getAllCourses());
+        List<Course> courses = courseService.getAllCourses();
+        if (courses.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(courses);
     }
+
+    @GetMapping("/instructor/{instructorId}")
+    public ResponseEntity<List<Course>> getCoursesByInstructor(@PathVariable int instructorId) {
+        List<Course> courses = courseService.getCoursesByInstructor(instructorId);
+        if (courses.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(courses);
+    }
+
+
 
     @GetMapping("/{id}")
     public ResponseEntity<Course> getCourseById(@PathVariable Integer id) {

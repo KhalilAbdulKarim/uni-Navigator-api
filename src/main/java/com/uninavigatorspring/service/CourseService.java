@@ -19,9 +19,14 @@ public class CourseService {
     @Autowired
     private UserRepository userRepository;
 
+//    public List<Course> getAllCourses() {
+//        return courseRepository.findAll();
+//    }
+
     public List<Course> getAllCourses() {
-        return courseRepository.findAll();
+        return courseRepository.findAllWithInstructor();
     }
+
 
     public List<Course> getCoursesByInstructor(int instructorId) {
         return courseRepository.findByInstructorUserId(instructorId);

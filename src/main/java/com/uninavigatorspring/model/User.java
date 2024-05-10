@@ -1,10 +1,14 @@
 package com.uninavigatorspring.model;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.sql.Date;
 import java.time.LocalDate;
 
 @Entity
+//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "User")
 public class User {
 
