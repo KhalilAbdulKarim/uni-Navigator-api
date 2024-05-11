@@ -1,5 +1,6 @@
 package com.uninavigatorspring.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.sql.Date;
@@ -15,7 +16,7 @@ public class Course {
     private String courseName;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "InstructorID", nullable = false)
+    @JoinColumn(name = "InstructorID", nullable = true)
     private User instructor;
 
     @Column(length = 255, nullable = true)

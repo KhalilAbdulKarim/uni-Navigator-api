@@ -29,15 +29,16 @@ public class CourseService {
 
 
     public List<Course> getCoursesByInstructor(int instructorId) {
-        return courseRepository.findByInstructorUserId(instructorId);
+        return courseRepository.findCoursesByInstructor(instructorId);
     }
 
+
+
     public Course getCourseByName(String courseName) {
-        return courseRepository.findByCourseNameContainingIgnoreCase(courseName)
-                .stream()
-                .findFirst()
-                .orElse(null);
+        return courseRepository.findByCourseNameContainingIgnoreCase(courseName).get(0);
     }
+
+
 
     public Course createCourse(String courseName, int instructorId, String schedule, String description, int capacity, Date startDate, Date endDate) {
         Optional<User> instructor = userRepository.findById(instructorId);

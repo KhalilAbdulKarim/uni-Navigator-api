@@ -26,13 +26,14 @@ public class CourseController {
     }
 
     @GetMapping("/instructor/{instructorId}")
-    public ResponseEntity<List<Course>> getCoursesByInstructor(@PathVariable int instructorId) {
+    public ResponseEntity<List<Course>> getCoursesByInstructor(@PathVariable Integer instructorId) {
         List<Course> courses = courseService.getCoursesByInstructor(instructorId);
         if (courses.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(courses);
     }
+
 
 
 
@@ -46,6 +47,7 @@ public class CourseController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    // create a course
     @PostMapping("/createCourse")
     public ResponseEntity<?> createCourse(@RequestBody Course course) {
         if (course == null) {
@@ -78,7 +80,7 @@ public class CourseController {
     }
 
 
-
+    // update a course
     @PutMapping("/{id}")
     public ResponseEntity<Course> updateCourse(@PathVariable Integer id, @RequestBody Course course) {
         return ResponseEntity.ok(courseService.updateCourse(
@@ -93,9 +95,16 @@ public class CourseController {
         ));
     }
 
+    // delete course
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteCourse(@PathVariable Integer id) {
         boolean deleted = courseService.deleteCourse(id);
         return deleted ? ResponseEntity.ok("Deleted successfully") : ResponseEntity.notFound().build();
+    }
+
+    // search by course name
+    @GetMapping("/search?courseName={courseName}")
+    public ResponseEntity<Course> getCourseByName(@RequestParam String courseName) {
+        return ResponseEntity.ok(courseService.getCourseByName(courseName));
     }
 }

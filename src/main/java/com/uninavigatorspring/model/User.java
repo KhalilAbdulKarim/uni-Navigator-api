@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -42,6 +43,10 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "ENUM('None', 'Requested', 'Approved', 'Declined')", nullable = false)
     private RequestStatus requestStatus = RequestStatus.None;
+
+//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+//    private Set<Course> courses;
+
 
     public User(String username, String password, String email, String firstName, String lastName, Role role, Date date, RequestStatus requestStatus) {
         this.username = username;
