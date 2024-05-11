@@ -15,6 +15,34 @@ public class EnrollmentController {
     @Autowired
     private EnrollmentService enrollmentService;
 
+    @PostMapping("/enroll")
+    public ResponseEntity<?> enrollStudent(@RequestParam int courseId, @RequestParam int userId) {
+        try {
+            boolean success = enrollmentService.enrollStudent(courseId, userId);
+            if (success) {
+                return ResponseEntity.ok().body("Student enrolled successfully!");
+            } else {
+                return ResponseEntity.badRequest().body("Could not enroll the student.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("An error occurred: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/drop")
+    public ResponseEntity<?> dropStudent(@RequestParam int courseId, @RequestParam int userId) {
+        try {
+            boolean success = enrollmentService.dropStudent(courseId, userId);
+            if (success) {
+                return ResponseEntity.ok().body("Student dropped successfully!");
+            } else {
+                return ResponseEntity.badRequest().body("Could not drop the student.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("An error occurred: " + e.getMessage());
+        }
+    }
+
     @GetMapping
     public ResponseEntity<List<Enrollment>> getAllEnrollments() {
         return ResponseEntity.ok(enrollmentService.getAllEnrollments());
@@ -40,7 +68,7 @@ public class EnrollmentController {
         return ResponseEntity.ok(enrollmentService.getEnrollmentsByCourse(courseId));
     }
 
-    @PostMapping
+    @PostMapping("/")
     public ResponseEntity<Enrollment> createEnrollment(
             @RequestParam int userId,
             @RequestParam int courseId,
@@ -50,6 +78,8 @@ public class EnrollmentController {
         Enrollment enrollment = enrollmentService.createEnrollment(userId, courseId, enrollmentDate, status);
         return enrollment != null ? ResponseEntity.ok(enrollment) : ResponseEntity.badRequest().build();
     }
+
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Enrollment> updateEnrollment(
@@ -63,7 +93,7 @@ public class EnrollmentController {
         return enrollment != null ? ResponseEntity.ok(enrollment) : ResponseEntity.badRequest().build();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/drop/{id}")
     public ResponseEntity<String> deleteEnrollment(@PathVariable Integer id) {
         boolean deleted = enrollmentService.deleteEnrollment(id);
         return deleted ? ResponseEntity.ok("Deleted successfully") : ResponseEntity.notFound().build();

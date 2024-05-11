@@ -6,6 +6,7 @@ import com.uninavigatorspring.model.User;
 import com.uninavigatorspring.repository.CourseRepository;
 import com.uninavigatorspring.repository.EnrollmentRepository;
 import com.uninavigatorspring.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,7 @@ public class EnrollmentService {
     public List<Enrollment> getEnrollmentsByCourse(int courseId) {
         return enrollmentRepository.findByCourseCourseId(courseId);
     }
+
 
     public Enrollment createEnrollment(int userId, int courseId, Date enrollmentDate, Enrollment.Status status) {
         Optional<User> user = userRepository.findById(userId);
@@ -66,5 +68,31 @@ public class EnrollmentService {
         } else {
             return false;
         }
+    }
+
+    public Enrollment getEnrollmentById(int enrollmentId) {
+        return enrollmentRepository.findById(enrollmentId).orElse(null);
+    }
+
+    public boolean enrollStudent(int courseId, int userId) {
+        Optional<User> user = userRepository.findById(userId);
+        Optional<Course> course = courseRepository.findById(courseId);
+        if (user.isPresent() && course.isPresent()) {
+            Enrollment enrollment = new Enrollment(user.get(), course.get(), new Date(System.currentTimeMillis()), Enrollment.Status.Enrolled);
+            enrollmentRepository.save(enrollment);
+            return true;
+        }
+        return false;
+    }
+
+
+    @Transactional
+    public boolean dropStudent(int courseId, int userId) {
+        Optional<Enrollment> enrollment = enrollmentRepository.findByCourseCourseIdAndUserUserId(courseId, userId);
+        if (enrollment.isPresent()) {
+            enrollmentRepository.delete(enrollment.get());
+            return true;
+        }
+        return false;
     }
 }
