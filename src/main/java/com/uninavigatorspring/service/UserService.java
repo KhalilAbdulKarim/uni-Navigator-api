@@ -68,6 +68,10 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public List<User> getAllStudents() {
+        return userRepository.findAllByRole(User.Role.Student);
+    }
+
     public Optional<User> getUserById(Integer userId) {
         return userRepository.findById(userId);
     }

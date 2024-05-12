@@ -6,7 +6,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
+import com.uninavigatorspring.model.Project;
 
 @Entity
 //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -44,9 +46,13 @@ public class User {
     @Column(columnDefinition = "ENUM('None', 'Requested', 'Approved', 'Declined')", nullable = false)
     private RequestStatus requestStatus = RequestStatus.None;
 
-//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-//    private Set<Course> courses;
-
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "project_users",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "project_id")
+    )
+    private Set<Project> projects = new HashSet<>();
 
     public User(String username, String password, String email, String firstName, String lastName, Role role, Date date, RequestStatus requestStatus) {
         this.username = username;
@@ -57,6 +63,10 @@ public class User {
         this.role = role;
         this.dob = date;
         this.requestStatus = requestStatus;
+    }
+
+    public String getFullName() {
+        return firstName + " " + lastName;
     }
 
     public enum Role {

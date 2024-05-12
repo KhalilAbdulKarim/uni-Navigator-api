@@ -14,11 +14,11 @@ public class Grade {
     private Integer gradeId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "UserID", nullable = false)
+    @JoinColumn(name = "UserId", nullable = false)
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CourseID", nullable = false)
+    @JoinColumn(name = "CourseId", nullable = false)
     private Course course;
 
     @Column(length = 255, nullable = false)

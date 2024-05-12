@@ -32,6 +32,12 @@ public class UserController {
         return ResponseEntity.ok(instructors);
     }
 
+    @GetMapping("/students")
+    public ResponseEntity<List<User>> getAllStudents() {
+        List<User> students = userService.getAllStudents();
+        return ResponseEntity.ok(students);
+    }
+
     @GetMapping("/{userId}")
     public ResponseEntity<User> getUserById(@PathVariable Integer userId) {
         Optional<User> user = userService.getUserById(userId);
